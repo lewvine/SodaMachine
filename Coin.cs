@@ -9,17 +9,18 @@ namespace SodaMachine
     internal class Coin
     {
         private double value;
+        private string type;
+        private int quantity;
 
-        public double Value
+        public double Value { get { return value;} set { this.value = value; } }
+        public string Type { get { return type; } set { this.type = value; } }
+        public int Quantity { get { return quantity; } set { this.quantity = value; } }
+
+        public Coin(string type, double value, int quantity)
         {
-            get
-            {
-                return value;
-            }
-            set
-            {
-                this.value = value;
-            }
+            this.type = type;
+            this.value = value;
+            this.quantity = quantity;
         }
     }
 }

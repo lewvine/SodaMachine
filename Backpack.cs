@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace SodaMachine
 {
-    internal class Nickel
+    internal class Backpack
     {
+        private List<Soda> sodas;
+        public Backpack()
+        {
+            this.sodas = new List<Soda>();
+        }
     }
 }
