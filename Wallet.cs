@@ -14,10 +14,10 @@ namespace SodaMachine
         public Wallet()
         {
             this.change = new List<Coin>();
-            Coin quarters = new Coin("Quarter", .25, 20);
-            Coin dimes = new Coin("Dime", .1, 10);
-            Coin nickels = new Coin("Nickel", .05, 20);
-            Coin pennys = new Coin("Penny", .01, 50);
+            Coin quarters = new Coin("Quarter", .25, 16);
+            Coin dimes = new Coin("Dime", .1, 5);
+            Coin nickels = new Coin("Nickel", .05, 9);
+            Coin pennys = new Coin("Penny", .01, 5);
             this.change.Add(quarters);
             this.change.Add(dimes);
             this.change.Add(nickels);
