@@ -40,5 +40,25 @@ namespace SodaMachine
         {
 
         }
+
+        public void DisplaySodas()
+        {
+            Console.WriteLine("Welcome to the Soda Machine.");
+            Console.WriteLine("Please make a choice from the following:");
+            int selection = 0;
+            int count = 1;
+            foreach(Soda soda in this.sodas)
+            {
+                Console.WriteLine($"Select ({count}) for {soda.Flavor} - {soda.Price} - # Left {soda.Quantity}");
+            }
+        }
+
+
+
+        public void SelectSoda()
+        {
+            DisplaySodas();
+
+        }
     }
 }

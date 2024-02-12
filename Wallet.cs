@@ -11,6 +11,7 @@ namespace SodaMachine
     {
         private List<Coin> change;
 
+        public List<Coin> Change => change;
         public Wallet()
         {
             this.change = new List<Coin>();
@@ -44,29 +45,16 @@ namespace SodaMachine
             Console.WriteLine("Select (4) for a Penny");;
         }
 
-        public int SelectCoin()
+        public bool IsEmpty()
         {
-            int selection = 0;
-            DisplayCoins();
-            DisplayCoinMenu();
-            bool validInt = false;
-            while (!validInt || (selection != 1 || selection != 2 || selection != 3 || selection != 4))
+            foreach(Coin coin in change)
             {
-                Console.WriteLine("Please make a valid choice");
-                validInt = !Int32.TryParse(Console.ReadLine(), out selection);
+                if(coin.Quantity > 0)
+                {
+                    return false;
+                }
             }
-            return selection;
+            return true;
         }
-
-
-        //public double GetTotalChange()
-        //{
-        //    double totalChange = 0;
-        //    foreach(Coin coin in change)
-        //    {
-        //        totalChange += coin.Value;
-        //    }
-        //    return totalChange;
-        //}
     }
 }
