@@ -16,37 +16,41 @@ namespace SodaMachine
         {
             this.backpack = new Backpack();
             this.wallet = new Wallet();
+            this.moneyInHand = new List<double>();
         }
         //public List<Coin>()
         //{
         //    List<Coin> coins = new List<Coin>();
         //    return coins;
         //}
-        public void SelectCoin()
+        public double SelectCoin()
         {
             int selection = 0;
             Console.Clear();
             this.wallet.DisplayCoins();
             this.wallet.DisplayCoinMenu();
             bool validInt = false;
-            while (!validInt || !(selection == 1 || selection == 2 || selection == 3 || selection == 4))
+            while (!validInt && (selection != 1 || selection != 2 || selection != 3 || selection != 4))
             {
                 Console.WriteLine("Please make a valid choice");
-                validInt = !Int32.TryParse(Console.ReadLine(), out selection);
-                Console.WriteLine($"You selected {this.wallet.Change[selection].Type}.");
+                validInt = Int32.TryParse(Console.ReadLine(), out selection);
+                if(validInt)
+                {
+                    Console.WriteLine($"You selected {this.wallet.Change[selection - 1].Type}.");
+                }
             }
-            if (this.wallet.Change[selection-1].Quantity == 0)
+            if (this.wallet.Change[selection - 1].Quantity == 0)
             {
                 Console.WriteLine("You don't have any of those in your wallet.");
                 Console.WriteLine("Please make another choice");
                 Console.ReadLine();
                 SelectCoin();
             }
-            this.wallet.Change[selection-1].Quantity--;
-            PutCoinInHand(this.wallet.Change[selection - 1].Value);
+            this.wallet.Change[selection - 1].Quantity--;
+            return this.wallet.Change[selection - 1].Value;
         }
 
-        public void SelectSoda(SodaMachine sodaMachine)
+        public int SelectSoda(SodaMachine sodaMachine)
         {
             int selection = 0;
             sodaMachine.DisplaySodas();
@@ -54,7 +58,7 @@ namespace SodaMachine
             while (!validInt || !(selection == 1 || selection == 2 || selection == 3))
             {
                 Console.WriteLine("Please make a valid choice");
-                validInt = !Int32.TryParse(Console.ReadLine(), out selection);
+                validInt = Int32.TryParse(Console.ReadLine(), out selection);
                 Console.WriteLine($"You selected {sodaMachine.sodas[selection - 1].Flavor}.");
             }
             if (sodaMachine.sodas[selection - 1].Quantity == 0)
@@ -64,25 +68,18 @@ namespace SodaMachine
                 Console.ReadLine();
                 SelectSoda(sodaMachine);
             }
-            Soda soda = new Soda(
-                    sodaMachine.sodas[selection - 1].Flavor,
-                    sodaMachine.sodas[selection - 1].Price,
-                    1
-                );
-            double change = DepositMoney(soda.Price);
-            sodaMachine.sodas[selection - 1].Quantity--;
-            this.backpack.AddSoda(soda);
+            return selection;
         }
 
 
-        public double DepositMoney(double price)
+        //public double DepositMoney(List<double> moneyInHand)
+        //{
+        //    double change = moneyInHand.Sum() - price;
+        //    return change;
+        //}
+        public void GetCoins(double price)
         {
-            double totalInHand = 0;
-            foreach(double coinValue in moneyInHand)
-            {
-                totalInHand += coinValue;
-            }
-            while(totalInHand < price)
+            while (moneyInHand.Sum() < price)
             {
                 if (this.wallet.IsEmpty())
                 {
@@ -91,20 +88,11 @@ namespace SodaMachine
                 }
                 else
                 {
-                    SelectCoin();
+                    double value = SelectCoin();
+                    moneyInHand.Add(value);
                 }
             }
-            return totalInHand - price;
+            Console.WriteLine($"You now have {moneyInHand.Sum()} in hand.");
         }
-        public void PutCoinInHand(double value)
-        {
-            this.moneyInHand.Add(value);
-            double total = 0;
-            foreach(double coin in this.moneyInHand)
-            {
-                total += coin;
-            }
-            Console.WriteLine($"You now have {total} in hand.");
-        }
-
+    }
 }

@@ -4,7 +4,24 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Customer customer = new Customer();
+            SodaMachine sodaMachine = new SodaMachine();
+
+            int selection = customer.SelectSoda(sodaMachine);
+
+            //The selected Soda;
+            Soda selectedSoda = new Soda(
+                sodaMachine.sodas[selection - 1].Flavor,
+                sodaMachine.sodas[selection - 1].Price,
+                1
+            );
+            customer.GetCoins(selectedSoda.Price);
+
+
+            sodaMachine.sodas[selection - 1].Quantity--;
+            //this.backpack.AddSoda(soda);
+            //PutCoinInHand(this.wallet.Change[selection - 1].Value);
         }
+
     }
 }

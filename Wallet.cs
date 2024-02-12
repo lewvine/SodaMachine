@@ -32,8 +32,6 @@ namespace SodaMachine
             {
                 Console.WriteLine($"{coin.Quantity} - {coin.Type}(s)");
             }
-            DisplayCoinMenu();
-
         }
 
         public void DisplayCoinMenu()

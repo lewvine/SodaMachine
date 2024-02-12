@@ -50,6 +50,7 @@ namespace SodaMachine
             foreach(Soda soda in this.sodas)
             {
                 Console.WriteLine($"Select ({count}) for {soda.Flavor} - {soda.Price} - # Left {soda.Quantity}");
+                count++;
             }
         }
 
