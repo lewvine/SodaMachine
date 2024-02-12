@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace SodaMachine
 {
@@ -32,6 +33,11 @@ namespace SodaMachine
             this.sodas.Add(orange);
             this.sodas.Add(cola);
             this.sodas.Add(rootBeer);
+
+        }
+
+        public void Transaction(List<Coin> money, int sodaCoice)
+        {
 
         }
     }

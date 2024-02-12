@@ -13,5 +13,11 @@ namespace SodaMachine
         {
             this.sodas = new List<Soda>();
         }
+
+        public void AddSoda(Soda soda)
+        {
+            this.sodas.Add(soda);
+            Console.WriteLine($"{soda.Flavor} added to backpack.");
+        }
     }
 }
