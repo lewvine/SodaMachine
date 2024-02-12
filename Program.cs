@@ -15,8 +15,13 @@
                 sodaMachine.sodas[selection - 1].Price,
                 1
             );
-            customer.GetCoins(selectedSoda.Price);
+            List<double> deposit = customer.GetCoins(selectedSoda.Price);
 
+            customer.DepositCoins(sodaMachine, deposit);
+            //sodaMachine.DispenseSoda(selectedSoda);
+            //List<double> change = sodaMachine.DispenseChange(deposit, selectedSoda.Price);
+            //customer.wallet.AddCoins(change);
+            customer.backpack.AddSoda(selectedSoda);
 
             sodaMachine.sodas[selection - 1].Quantity--;
             //this.backpack.AddSoda(soda);

@@ -8,7 +8,7 @@ namespace SodaMachine
 {
     internal class Customer
     {
-        private Backpack backpack;
+        public Backpack backpack;
         private Wallet wallet;
         private List<double> moneyInHand;
 
@@ -27,6 +27,7 @@ namespace SodaMachine
         {
             int selection = 0;
             Console.Clear();
+            DisplayMoneyInHand();
             this.wallet.DisplayCoins();
             this.wallet.DisplayCoinMenu();
             bool validInt = false;
@@ -71,13 +72,38 @@ namespace SodaMachine
             return selection;
         }
 
+        public void DisplayMoneyInHand()
+        {
+            Console.WriteLine($"You have {moneyInHand.Sum()} money in hand.");
+        }
 
-        //public double DepositMoney(List<double> moneyInHand)
-        //{
-        //    double change = moneyInHand.Sum() - price;
-        //    return change;
-        //}
-        public void GetCoins(double price)
+        public void DepositCoins(SodaMachine sodaMachine, List<double> moneyInHand)
+        {
+            double totalDeposit = moneyInHand.Sum();
+            foreach(double value in moneyInHand)
+            {
+                switch(value)
+                {
+                    case .01:
+                        sodaMachine.coins.Find(c => c.Type == "Penny").Quantity++;
+                        moneyInHand.Remove(value);
+                        break;
+                    case .05:
+                        sodaMachine.coins.Find(c => c.Type == "Nickel").Quantity++;
+                        moneyInHand.Remove(value);
+                        break;
+                    case .1:
+                        sodaMachine.coins.Find(c => c.Type == "Dime").Quantity++;
+                        moneyInHand.Remove(value);
+                        break;
+                    case .25:
+                        sodaMachine.coins.Find(c => c.Type == "Quarter").Quantity++;
+                        moneyInHand.Remove(value);
+                        break;
+                }
+            }
+        }
+        public List<double> GetCoins(double price)
         {
             while (moneyInHand.Sum() < price)
             {
@@ -92,7 +118,7 @@ namespace SodaMachine
                     moneyInHand.Add(value);
                 }
             }
-            Console.WriteLine($"You now have {moneyInHand.Sum()} in hand.");
+            return moneyInHand;
         }
     }
 }
