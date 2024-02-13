@@ -54,7 +54,100 @@ namespace SodaMachine
             }
         }
 
+        public void DispenseSoda(Soda soda)
+        {
+            Soda selectedVariety = this.sodas.Find(s => s.Flavor == soda.Flavor);
+            selectedVariety.Quantity--;
+        }
 
+        public List<Coin> DispenseChange(double deposit, double price)
+        {
+            Console.WriteLine($"You deposited {deposit} and the price was {price}.");
+            double totalChange = deposit - price;
+            List<double> change = new List<double>();
+            while(totalChange > 0)
+            {
+                if(totalChange >= .25)
+                {
+                    totalChange -= .25;
+                    change.Add(.25);
+                }
+                else if(totalChange >= .10)
+                {
+                    totalChange -= .10;
+                    change.Add(.10);
+                }
+                else if(totalChange >= .05)
+                {
+                    totalChange -= .05;
+                    change.Add(.05);
+                }
+                else
+                {
+                    totalChange -= .01;
+                    change.Add(.01);
+                }
+            }
+            return ConvertToCoins(change); 
+        }
+
+        public List<Coin> ConvertToCoins(List<double> changeInDoubles)
+        {
+            List<Coin> changeInCoins = new List<Coin>();
+            foreach(double value in changeInDoubles)
+            {
+                if (value == .25)
+                {
+                    if(changeInCoins.Exists(c => c.Value == value))
+                    {
+                        changeInCoins.Find(c => c.Value == value).Quantity++;
+                    } 
+                    else
+                    {
+                        Coin quarter = new Coin("Quarter", .25, 1);
+                        changeInCoins.Add(quarter);
+                    }
+
+                }
+                else if (value == .10)
+                {
+                    if (changeInCoins.Exists(c => c.Value == value))
+                    {
+                        changeInCoins.Find(c => c.Value == value).Quantity++;
+                    }
+                    else
+                    {
+                        Coin dime = new Coin("Dime", .10, 1);
+                        changeInCoins.Add(dime);
+                    }
+                }
+                else if (value == .05)
+                {
+                    if (changeInCoins.Exists(c => c.Value == value))
+                    {
+                        changeInCoins.Find(c => c.Value == value).Quantity++;
+                    }
+                    else
+                    {
+                        Coin nickel = new Coin("Nickel", .05, 1);
+                        changeInCoins.Add(nickel);
+                    }
+                }
+                else
+                {
+                    if (changeInCoins.Exists(c => c.Value == value))
+                    {
+                        changeInCoins.Find(c => c.Value == value).Quantity++;
+                    }
+                    else
+                    {
+                        Coin penny = new Coin("Penny", .01, 1);
+                        changeInCoins.Add(penny);
+                    }
+                }
+            }
+            return changeInCoins;
+        }
 
         public void SelectSoda()
         {

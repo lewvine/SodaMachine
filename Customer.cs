@@ -51,7 +51,7 @@ namespace SodaMachine
             return this.wallet.Change[selection - 1].Value;
         }
 
-        public int SelectSoda(SodaMachine sodaMachine)
+        public Soda SelectSoda(SodaMachine sodaMachine)
         {
             int selection = 0;
             sodaMachine.DisplaySodas();
@@ -69,7 +69,12 @@ namespace SodaMachine
                 Console.ReadLine();
                 SelectSoda(sodaMachine);
             }
-            return selection;
+            Soda soda = new Soda(
+                sodaMachine.sodas[selection - 1].Flavor,
+                sodaMachine.sodas[selection - 1].Price,
+                1
+            );
+            return soda;
         }
 
         public void DisplayMoneyInHand()
@@ -77,30 +82,26 @@ namespace SodaMachine
             Console.WriteLine($"You have {moneyInHand.Sum()} money in hand.");
         }
 
-        public void DepositCoins(SodaMachine sodaMachine, List<double> moneyInHand)
+        public void DepositCoin(SodaMachine sodaMachine, double value)
         {
-            double totalDeposit = moneyInHand.Sum();
-            foreach(double value in moneyInHand)
+            switch(value)
             {
-                switch(value)
-                {
-                    case .01:
-                        sodaMachine.coins.Find(c => c.Type == "Penny").Quantity++;
-                        moneyInHand.Remove(value);
-                        break;
-                    case .05:
-                        sodaMachine.coins.Find(c => c.Type == "Nickel").Quantity++;
-                        moneyInHand.Remove(value);
-                        break;
-                    case .1:
-                        sodaMachine.coins.Find(c => c.Type == "Dime").Quantity++;
-                        moneyInHand.Remove(value);
-                        break;
-                    case .25:
-                        sodaMachine.coins.Find(c => c.Type == "Quarter").Quantity++;
-                        moneyInHand.Remove(value);
-                        break;
-                }
+                case .01:
+                    sodaMachine.coins.Find(c => c.Type == "Penny").Quantity++;
+                    moneyInHand.Remove(value);
+                    break;
+                case .05:
+                    sodaMachine.coins.Find(c => c.Type == "Nickel").Quantity++;
+                    moneyInHand.Remove(value);
+                    break;
+                case .1:
+                    sodaMachine.coins.Find(c => c.Type == "Dime").Quantity++;
+                    moneyInHand.Remove(value);
+                    break;
+                case .25:
+                    sodaMachine.coins.Find(c => c.Type == "Quarter").Quantity++;
+                    moneyInHand.Remove(value);
+                    break;
             }
         }
         public List<double> GetCoins(double price)
@@ -119,6 +120,65 @@ namespace SodaMachine
                 }
             }
             return moneyInHand;
+        }
+
+        public void AddToWallet(Coin coin)
+        {
+            double value = coin.Value;
+
+            if (value == .25)
+            {
+                Console.WriteLine("A quarter was added to your wallet");
+                if (this.wallet.Change.Exists(c => c.Value == value))
+                {
+                    this.wallet.Change.Find(c => c.Value == value).Quantity++;
+                }
+                else
+                {
+                    Coin quarter = new Coin("Quarter", .25, 1);
+                    this.wallet.Change.Add(quarter);
+                }
+
+            }
+            else if (value == .10)
+            {
+                Console.WriteLine("A dime was added to your wallet");
+                if (this.wallet.Change.Exists(c => c.Value == value))
+                {
+                    this.wallet.Change.Find(c => c.Value == value).Quantity++;
+                }
+                else
+                {
+                    Coin dime = new Coin("Dime", .10, 1);
+                    this.wallet.Change.Add(dime);
+                }
+            }
+            else if (value == .05)
+            {
+                Console.WriteLine("A nickel was added to your wallet");
+                if (this.wallet.Change.Exists(c => c.Value == value))
+                {
+                    this.wallet.Change.Find(c => c.Value == value).Quantity++;
+                }
+                else
+                {
+                    Coin nickel = new Coin("Nickel", .05, 1);
+                    this.wallet.Change.Add(nickel);
+                }
+            }
+            else
+            {
+                Console.WriteLine("A penny was added to your wallet");
+                if (this.wallet.Change.Exists(c => c.Value == value))
+                {
+                    this.wallet.Change.Find(c => c.Value == value).Quantity++;
+                }
+                else
+                {
+                    Coin penny = new Coin("Penny", .01, 1);
+                    this.wallet.Change.Add(penny);
+                }
+            }
         }
     }
 }
